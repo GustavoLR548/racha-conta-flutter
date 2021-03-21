@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rachac/models/conta.dart';
 import 'package:rachac/provider/contas.dart';
-import 'package:rachac/widget/MyBottomSheet.dart';
-import 'package:rachac/widget/contaCard.dart';
+import 'package:rachac/widget/Conta/AddConta.dart';
+import 'package:rachac/widget/Conta/contaCard.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
@@ -10,19 +10,34 @@ class HomePage extends StatelessWidget {
 
   Future<String> _createTodo(BuildContext appCtx) async {
     final dados = await showModalBottomSheet(
-        context: appCtx, builder: (modalBottomSheetCtx) => MyBottomSheet());
+        context: appCtx, builder: (modalBottomSheetCtx) => AddConta());
     return dados;
   }
 
   Widget build(BuildContext context) {
-    final allContas = Provider.of<Contas>(context);
+    final allContas = Provider.of<Contas>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Racha Conta'),
       ),
-      body: allContas.items.length == 0
-          ? _noConta()
-          : _showConta(allContas.items),
+      body: FutureBuilder(
+          future: allContas.fetchData(),
+          builder: (ctx, snapshot) {
+            print(snapshot.connectionState);
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              return Consumer<Contas>(
+                  child: _noConta(),
+                  builder: (ctx, contas, ch) {
+                    if (contas.items.length == 0) {
+                      return ch;
+                    } else {
+                      return _showConta(contas.items);
+                    }
+                  });
+            }
+          }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -36,7 +51,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _noConta() {
+  Widget _noConta() {
     return Center(
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -49,7 +64,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _showConta(List<Conta> allContas) {
+  Widget _showConta(List<Conta> allContas) {
     return ListView.builder(
       itemCount: allContas.length,
       itemBuilder: (ctx, index) => ContaCard(allContas[index]),

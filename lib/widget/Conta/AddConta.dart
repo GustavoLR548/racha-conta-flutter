@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class MyBottomSheet extends StatefulWidget {
+class AddConta extends StatefulWidget {
   @override
-  _MyBottomSheetState createState() => _MyBottomSheetState();
+  _AddContaState createState() => _AddContaState();
 }
 
-class _MyBottomSheetState extends State<MyBottomSheet> {
+class _AddContaState extends State<AddConta> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   String _titulo;
   int _pessoas;
