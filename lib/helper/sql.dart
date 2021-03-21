@@ -22,4 +22,9 @@ class SQLDatabase {
     final sqlDb = await SQLDatabase.database;
     return sqlDb.query(table);
   }
+
+  static Future<void> delete(String table, String id) async {
+    final sqlDb = await SQLDatabase.database;
+    sqlDb.delete(table, where: 'id=?', whereArgs: [id]);
+  }
 }

@@ -47,6 +47,7 @@ class Contas with ChangeNotifier {
 
   void remove(String id) {
     _items.removeWhere((element) => element.id == id);
+    SQLDatabase.delete('user_rachac', id);
     notifyListeners();
   }
 
