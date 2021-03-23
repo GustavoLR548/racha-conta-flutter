@@ -7,13 +7,13 @@ class Conta with ChangeNotifier {
   String _title;
   double _fullPrice;
   int _numberOfPeople;
-  double _waiterPorcentage;
-  bool _foiPaga;
+  double _waiterPercentage;
+  bool _arquivada;
 
   Conta(this._creationDate, this._title, this._numberOfPeople);
 
   Conta.complete(this._creationDate, this._title, this._fullPrice,
-      this._numberOfPeople, this._waiterPorcentage, this._foiPaga);
+      this._numberOfPeople, this._waiterPercentage, this._arquivada);
 
   String get id {
     if (this._creationDate == null) return '';
@@ -47,14 +47,14 @@ class Conta with ChangeNotifier {
     return this._numberOfPeople;
   }
 
-  double get waiterPorcentage {
-    if (this._waiterPorcentage == null) return 0;
-    return this._waiterPorcentage;
+  double get waiterPercentage {
+    if (this._waiterPercentage == null) return 0;
+    return this._waiterPercentage;
   }
 
-  bool get foiPaga {
-    if (this._foiPaga == null) return false;
-    return this._foiPaga;
+  bool get arquivada {
+    if (this._arquivada == null) return false;
+    return this._arquivada;
   }
 
   set title(String title) {
@@ -69,11 +69,15 @@ class Conta with ChangeNotifier {
     this._numberOfPeople = numberOfPeople;
   }
 
-  set waiterPorcentage(double waiterPorcentage) {
-    this._waiterPorcentage = waiterPorcentage;
+  set waiterPercentage(double waiterPercentage) {
+    this._waiterPercentage = waiterPercentage;
   }
 
-  set foiPaga(bool foiPaga) {
-    this._foiPaga = foiPaga;
+  set arquivada(bool arquivada) {
+    this._arquivada = arquivada;
+  }
+
+  bool canCalculate() {
+    return fullPrice != 0 && waiterPercentage != 0 && numberOfPeople != 0;
   }
 }

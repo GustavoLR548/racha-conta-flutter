@@ -5,13 +5,17 @@ class DialogBoxTextField extends StatefulWidget {
   final String title;
   final String initialValue;
   final Function onSubmitted;
+  final Function validator;
+  final TextInputType keyboardType;
   final double width;
   final double height;
 
   DialogBoxTextField(
-      {this.title,
+      {this.title = ' ',
       this.initialValue = '',
-      this.onSubmitted,
+      @required this.onSubmitted,
+      @required this.validator,
+      this.keyboardType = TextInputType.name,
       this.width = 300,
       this.height = 300});
   @override
@@ -22,20 +26,9 @@ class _DialogBoxTextFieldState extends State<DialogBoxTextField> {
   GlobalKey<FormState> _formKey = GlobalKey();
   String initialValue;
 
-  static const minLength = 3;
-  static const maxLength = 15;
-
   void initState() {
     this.initialValue = widget.initialValue;
     super.initState();
-  }
-
-  _save(BuildContext ctx) {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
-      widget.onSubmitted(initialValue);
-      Navigator.of(ctx).pop();
-    }
   }
 
   @override
@@ -51,34 +44,41 @@ class _DialogBoxTextFieldState extends State<DialogBoxTextField> {
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: Text(
                 widget.title,
-                style: TextStyle(fontSize: 20),
+                style: Theme.of(context).textTheme.headline1,
               ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: TextFormField(
                 initialValue: initialValue,
-                decoration: InputDecoration(labelText: 'Título'),
-                keyboardType: TextInputType.name,
+                decoration: InputDecoration(
+                    labelText: '',
+                    labelStyle: Theme.of(context).textTheme.bodyText1,
+                    errorStyle: Theme.of(context).textTheme.bodyText2),
+                keyboardType: widget.keyboardType,
                 onSaved: (value) {
                   initialValue = value;
                 },
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'O \'Título\' não pode ser vazio';
-                  } else if (value.length < minLength ||
-                      value.length > maxLength) {
-                    return 'O \'Título\' deve ser entre $minLength e $maxLength caractéres de tamanho';
-                  }
-                  return null;
-                },
+                validator: widget.validator,
               ),
             ),
             ElevatedButton(
-                onPressed: () => _save(context), child: Text('Salvar'))
+                onPressed: () => _save(context),
+                child: Text(
+                  'Salvar',
+                  style: Theme.of(context).textTheme.bodyText1,
+                ))
           ],
         ),
       ),
     );
+  }
+
+  _save(BuildContext ctx) {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      widget.onSubmitted(initialValue);
+      Navigator.of(ctx).pop();
+    }
   }
 }

@@ -6,8 +6,23 @@ class Contas with ChangeNotifier {
   List<Conta> _items = [];
 
   List<Conta> get items {
-    _items.sort((a, b) => a.id.compareTo(b.id));
-    return [...this._items];
+    List<Conta> result = [];
+    _items.forEach((element) {
+      if (!element.arquivada) result.add(element);
+    });
+    return result;
+  }
+
+  List<Conta> get archived {
+    List<Conta> result = [];
+    _items.forEach((element) {
+      if (element.arquivada) result.add(element);
+    });
+    return result;
+  }
+
+  int get size {
+    return _items.length;
   }
 
   void add(String title, int pessoas) {
@@ -15,20 +30,13 @@ class Contas with ChangeNotifier {
     Conta newConta = Conta(creation, title, pessoas);
 
     newConta.fullPrice = 0;
-    newConta.waiterPorcentage = 0;
-    newConta.foiPaga = false;
+    newConta.waiterPercentage = 0;
+    newConta.arquivada = false;
 
     _items.add(newConta);
     notifyListeners();
 
-    SQLDatabase.insert('user_rachac', {
-      'id': newConta.id,
-      'title': newConta.title,
-      'fullPrice': newConta.fullPrice,
-      'numberOfPeople': newConta.numberOfPeople,
-      'waiterPercentage': newConta.waiterPorcentage,
-      'foiPaga': newConta.foiPaga ? 1 : 0
-    });
+    SQLDatabase.insert('user_rachac', _contaToMap(newConta));
   }
 
   Conta find(String id) {
@@ -42,6 +50,7 @@ class Contas with ChangeNotifier {
 
     _items[contaIndex] = c;
     notifyListeners();
+    SQLDatabase.insert('user_rachac', _contaToMap(c));
     return true;
   }
 
@@ -62,9 +71,20 @@ class Contas with ChangeNotifier {
             item['title'],
             item['fullPrice'],
             item['numberOfPeople'],
-            item['waiterPorcentage'],
-            (item['foiPaga'] == 0 ? false : true)))
+            item['waiterPercentage'],
+            (item['archived'] == 0 ? false : true)))
         .toList();
     notifyListeners();
+  }
+
+  Map<String, Object> _contaToMap(Conta c) {
+    return {
+      'id': c.id,
+      'title': c.title,
+      'fullPrice': c.fullPrice,
+      'numberOfPeople': c.numberOfPeople,
+      'waiterPercentage': c.waiterPercentage,
+      'archived': c.arquivada ? 1 : 0
+    };
   }
 }

@@ -8,13 +8,12 @@ class SQLDatabase {
     return sql.openDatabase(path.join(dbPath, 'rachac.db'),
         onCreate: (db, version) async {
       return await db.execute(
-          'CREATE TABLE user_rachac(id TEXT PRIMARY KEY, title TEXT, fullPrice REAL, numberOfPeople INTEGER, waiterPercentage REAL, foiPaga INTEGER)');
+          'CREATE TABLE user_rachac(id TEXT PRIMARY KEY, title TEXT, fullPrice REAL, numberOfPeople INTEGER, waiterPercentage REAL, archived INTEGER)');
     }, version: 1);
   }
 
   static Future<void> insert(String table, Map<String, Object> data) async {
     final sqlDb = await SQLDatabase.database;
-
     sqlDb.insert(table, data, conflictAlgorithm: ConflictAlgorithm.replace);
   }
 

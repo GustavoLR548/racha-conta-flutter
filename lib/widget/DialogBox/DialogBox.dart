@@ -9,6 +9,7 @@ class DialogBox extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Dialog(
+        backgroundColor: Color(0xffebead1),
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
         child: Container(width: width, height: height, child: child));
