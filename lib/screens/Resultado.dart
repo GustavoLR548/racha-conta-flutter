@@ -59,8 +59,8 @@ class Resultado extends StatelessWidget {
                         conta.arquivada = true;
                         Provider.of<Contas>(context, listen: false)
                             .update(conta);
-                        Navigator.of(context)
-                            .pushReplacementNamed(OpenContas.routeName);
+                        Navigator.of(context).popUntil(
+                            (route) => route.settings.name == '/homepage');
                       },
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
