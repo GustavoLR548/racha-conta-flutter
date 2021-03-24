@@ -72,6 +72,8 @@ class Contas with ChangeNotifier {
             item['fullPrice'],
             item['numberOfPeople'],
             item['waiterPercentage'],
+            item['numberOfPeopleWhoDrink'],
+            item['drinkPrice'],
             (item['archived'] == 0 ? false : true)))
         .toList();
     notifyListeners();
@@ -84,6 +86,8 @@ class Contas with ChangeNotifier {
       'fullPrice': c.fullPrice,
       'numberOfPeople': c.numberOfPeople,
       'waiterPercentage': c.waiterPercentage,
+      'numberOfPeopleWhoDrink': c.numberOfPeopleWhoDrink,
+      'drinkPrice': c.drinkPrice,
       'archived': c.arquivada ? 1 : 0
     };
   }

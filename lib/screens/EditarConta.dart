@@ -43,8 +43,23 @@ class EditarConta extends StatelessWidget {
   }
 
   _calcularTotalAPagar(BuildContext context, Conta c) {
-    Provider.of<Contas>(context, listen: false).update(c);
-
-    Navigator.of(context).pushNamed(Resultado.routeName, arguments: c);
+    if (c.drinkPrice > c.fullPrice ||
+        c.numberOfPeopleWhoDrink > c.numberOfPeople ||
+        ((c.drinkPrice == 0 && c.numberOfPeopleWhoDrink > 0) ||
+            (c.drinkPrice > 0 && c.numberOfPeopleWhoDrink == 0))) {
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: Text('Atenção!',
+                    style: Theme.of(context).textTheme.headline1),
+                content: Text(
+                  'Você inseriu dados que não fazem sentido para o cálculo!',
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+              ));
+    } else {
+      Provider.of<Contas>(context, listen: false).update(c);
+      Navigator.of(context).pushNamed(Resultado.routeName, arguments: c);
+    }
   }
 }

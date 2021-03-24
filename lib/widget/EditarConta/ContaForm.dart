@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:rachac/models/conta.dart';
 import 'package:rachac/widget/DialogBox/DialogBoxTextField.dart';
+import 'package:rachac/widget/EditarConta/ExpandableBox.dart';
 
 class ContaForm extends StatefulWidget {
   final Function calcularTotal;
   final Conta contaAtual;
 
-  ContaForm(this.calcularTotal, this.contaAtual);
+  const ContaForm(this.calcularTotal, this.contaAtual);
 
   @override
   _ContaFormState createState() => _ContaFormState();
@@ -91,6 +92,72 @@ class _ContaFormState extends State<ContaForm> {
                     return null;
                   },
                 ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ExpandableBox('Álcool ', [
+                  Column(
+                    children: [
+                      TextFormField(
+                        initialValue:
+                            contaAtual.numberOfPeopleWhoDrink.toString(),
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelStyle: Theme.of(context).textTheme.bodyText1,
+                            labelText: 'Número de pessoas',
+                            errorStyle: Theme.of(context).textTheme.bodyText2),
+                        keyboardType: TextInputType.number,
+                        onSaved: (value) {
+                          contaAtual.numberOfPeopleWhoDrink = int.parse(value);
+                        },
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'O número de pessoas não pode ser vazio';
+                          }
+
+                          if (int.tryParse(value) == null) {
+                            return 'Digite um número';
+                          }
+
+                          if (int.parse(value) < 0) {
+                            return 'Digite um número';
+                          }
+
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        initialValue: contaAtual.drinkPrice.toString(),
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            prefixText: 'R\$',
+                            errorStyle: Theme.of(context).textTheme.bodyText2),
+                        keyboardType: TextInputType.number,
+                        onSaved: (value) {
+                          contaAtual.drinkPrice = double.parse(value);
+                        },
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'O número de pessoas não pode ser vazio';
+                          }
+
+                          if (double.tryParse(value) == null) {
+                            return 'Digite um número';
+                          }
+
+                          if (double.parse(value) < 0) {
+                            return 'Digite um número maior ou igual a 0';
+                          }
+
+                          return null;
+                        },
+                      ),
+                    ],
+                  )
+                ]),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 35),
                   child: GestureDetector(

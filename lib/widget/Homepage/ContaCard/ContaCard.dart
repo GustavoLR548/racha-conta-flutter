@@ -15,7 +15,7 @@ class ContaCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        color: Color(0xffdec698),
+        color: const Color(0xffdec698),
         child: ListTile(
           onTap: () {
             if (!_conta.arquivada)
@@ -77,7 +77,7 @@ class ContaCard extends StatelessWidget {
                       title: Text('Atenção!',
                           style: Theme.of(context).textTheme.headline1),
                       content: Text(
-                        'Você não preencheu todos os detalhes para que o calculo seja feito!',
+                        'Você não preencheu todos os detalhes para que o cálculo seja feito!',
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
                     ));

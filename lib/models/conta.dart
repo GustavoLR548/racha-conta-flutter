@@ -6,14 +6,23 @@ class Conta with ChangeNotifier {
   final String _creationDate;
   String _title;
   double _fullPrice;
-  int _numberOfPeople;
   double _waiterPercentage;
+  double _drinkPrice;
+  int _numberOfPeople;
+  int _numberOfPeopleWhoDrink;
   bool _arquivada;
 
   Conta(this._creationDate, this._title, this._numberOfPeople);
 
-  Conta.complete(this._creationDate, this._title, this._fullPrice,
-      this._numberOfPeople, this._waiterPercentage, this._arquivada);
+  Conta.complete(
+      this._creationDate,
+      this._title,
+      this._fullPrice,
+      this._numberOfPeople,
+      this._waiterPercentage,
+      this._numberOfPeopleWhoDrink,
+      this._drinkPrice,
+      this._arquivada);
 
   String get id {
     if (this._creationDate == null) return '';
@@ -47,9 +56,19 @@ class Conta with ChangeNotifier {
     return this._numberOfPeople;
   }
 
+  int get numberOfPeopleWhoDrink {
+    if (this._numberOfPeopleWhoDrink == null) return 0;
+    return this._numberOfPeopleWhoDrink;
+  }
+
   double get waiterPercentage {
     if (this._waiterPercentage == null) return 0;
     return this._waiterPercentage;
+  }
+
+  double get drinkPrice {
+    if (this._drinkPrice == null) return 0;
+    return this._drinkPrice;
   }
 
   bool get arquivada {
@@ -69,6 +88,14 @@ class Conta with ChangeNotifier {
     this._numberOfPeople = numberOfPeople;
   }
 
+  set numberOfPeopleWhoDrink(int numberOfPeopleWhoDrink) {
+    this._numberOfPeopleWhoDrink = numberOfPeopleWhoDrink;
+  }
+
+  set drinkPrice(double drinkPrice) {
+    this._drinkPrice = drinkPrice;
+  }
+
   set waiterPercentage(double waiterPercentage) {
     this._waiterPercentage = waiterPercentage;
   }
@@ -78,6 +105,7 @@ class Conta with ChangeNotifier {
   }
 
   bool canCalculate() {
-    return fullPrice != 0 && waiterPercentage != 0 && numberOfPeople != 0;
+    return (fullPrice != 0 || waiterPercentage != 0 || numberOfPeople != 0) ||
+        (numberOfPeopleWhoDrink != 0 || drinkPrice != 0);
   }
 }

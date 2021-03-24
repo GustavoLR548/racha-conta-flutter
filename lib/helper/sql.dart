@@ -7,8 +7,15 @@ class SQLDatabase {
     final dbPath = await sql.getDatabasesPath();
     return sql.openDatabase(path.join(dbPath, 'rachac.db'),
         onCreate: (db, version) async {
-      return await db.execute(
-          'CREATE TABLE user_rachac(id TEXT PRIMARY KEY, title TEXT, fullPrice REAL, numberOfPeople INTEGER, waiterPercentage REAL, archived INTEGER)');
+      await db.execute('CREATE TABLE user_rachac(' +
+          'id TEXT PRIMARY KEY,' +
+          'title TEXT,' +
+          'fullPrice REAL,' +
+          'numberOfPeople INTEGER,' +
+          'waiterPercentage REAL,' +
+          'numberOfPeopleWhoDrink INTEGER,' +
+          'drinkPrice REAL,' +
+          'archived INTEGER)');
     }, version: 1);
   }
 

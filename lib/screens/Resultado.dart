@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rachac/models/conta.dart';
 import 'package:rachac/provider/contas.dart';
-import 'package:rachac/screens/OpenContas.dart';
 import 'package:rachac/widget/Resultado/ResultadoItem.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +23,8 @@ class Resultado extends StatelessWidget {
               style: Theme.of(context).textTheme.headline1)));
     });
 
+    if (conta.numberOfPeopleWhoDrink == 0) texts = texts.sublist(0, 3);
+
     return Scaffold(
         appBar: AppBar(
           iconTheme: const IconThemeData(color: Colors.amber),
@@ -32,7 +33,7 @@ class Resultado extends StatelessWidget {
         ),
         body: Center(
           child: Container(
-            width: 250,
+            width: 270,
             child: Column(
               children: [
                 const SizedBox(
@@ -53,7 +54,7 @@ class Resultado extends StatelessWidget {
                   ElevatedButton(
                       child: Text(
                         'Arquivar',
-                        style: Theme.of(context).textTheme.headline1,
+                        style: Theme.of(context).textTheme.bodyText1,
                       ),
                       onPressed: () {
                         conta.arquivada = true;
@@ -73,14 +74,21 @@ class Resultado extends StatelessWidget {
 
   Map<String, double> calculateValues(Conta c) {
     Map<String, double> result = {
-      'Valor Total': 0,
-      'Valor do Garçom': 0,
-      'Valor Individual': 0,
+      'Total': 0,
+      'Garçom': 0,
+      'Individual': 0,
+      'Individual c/ Álcool': 0
     };
 
-    result['Valor do Garçom'] = (c.fullPrice * c.waiterPercentage) / 100;
-    result['Valor Total'] = c.fullPrice + result['Valor do Garçom'];
-    result['Valor Individual'] = (result['Valor Total'] / c.numberOfPeople);
+    result['Garçom'] = (c.fullPrice * c.waiterPercentage) / 100;
+    result['Total'] = c.fullPrice + result['Garçom'];
+    result['Individual'] =
+        ((result['Total'] - c.drinkPrice) / c.numberOfPeople);
+
+    if (c.numberOfPeopleWhoDrink != 0) {
+      result['Individual c/ Álcool'] =
+          result['Individual'] + (c.drinkPrice / c.numberOfPeopleWhoDrink);
+    }
 
     return result;
   }
