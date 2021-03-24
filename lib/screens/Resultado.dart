@@ -23,7 +23,9 @@ class Resultado extends StatelessWidget {
               style: Theme.of(context).textTheme.headline1)));
     });
 
-    if (conta.numberOfPeopleWhoDrink == 0) texts = texts.sublist(0, 3);
+    if (conta.numberOfPeopleWhoDrink == 0 ||
+        conta.numberOfPeopleWhoDrink == conta.numberOfPeople)
+      texts = texts.sublist(0, 3);
 
     return Scaffold(
         appBar: AppBar(
@@ -88,6 +90,8 @@ class Resultado extends StatelessWidget {
     if (c.numberOfPeopleWhoDrink != 0) {
       result['Individual c/ Álcool'] =
           result['Individual'] + (c.drinkPrice / c.numberOfPeopleWhoDrink);
+      if (c.numberOfPeopleWhoDrink == c.numberOfPeople)
+        result['Individual'] = result['Individual c/ Álcool'];
     }
 
     return result;
