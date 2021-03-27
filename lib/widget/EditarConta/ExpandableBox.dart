@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ExpandableBox extends StatefulWidget {
-  final String _title;
+  final List<Widget> _title;
   final List<Widget> _children;
 
   const ExpandableBox(this._title, this._children);
@@ -25,9 +25,10 @@ class _ExpandableBoxState extends State<ExpandableBox> {
         child: Column(
           children: <Widget>[
             ListTile(
-              tileColor: Color(0xffebead1),
-              title: Text(widget._title,
-                  style: Theme.of(context).textTheme.headline1),
+              tileColor: const Color(0xffebead1),
+              title: Row(
+                children: widget._title,
+              ),
               trailing: IconButton(
                 icon: Icon(_expanded ? Icons.expand_less : Icons.expand_more),
                 onPressed: () {

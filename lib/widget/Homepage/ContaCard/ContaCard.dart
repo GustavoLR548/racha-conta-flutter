@@ -5,7 +5,7 @@ import 'package:rachac/provider/contas.dart';
 import 'package:rachac/screens/EditarConta.dart';
 import 'package:provider/provider.dart';
 import 'package:rachac/screens/Resultado.dart';
-import 'package:rachac/widget/Homepage/ContaCard/IconDetector.dart';
+import 'package:rachac/widget/IconDetector.dart';
 
 class ContaCard extends StatelessWidget {
   final Conta _conta;

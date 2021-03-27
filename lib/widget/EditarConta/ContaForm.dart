@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rachac/models/conta.dart';
+import 'package:rachac/widget/DialogBox/DialogBox.dart';
 import 'package:rachac/widget/DialogBox/DialogBoxTextField.dart';
 import 'package:rachac/widget/EditarConta/ExpandableBox.dart';
+import 'package:rachac/widget/IconDetector.dart';
 
 class ContaForm extends StatefulWidget {
   final Function calcularTotal;
@@ -95,7 +97,39 @@ class _ContaFormState extends State<ContaForm> {
                 const SizedBox(
                   height: 20,
                 ),
-                ExpandableBox('Álcool ', [
+                ExpandableBox([
+                  Text('Álcool', style: Theme.of(context).textTheme.headline1),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  IconDetector(
+                      icon: Icon(Icons.new_releases),
+                      onTap: () => showDialog(
+                          context: context,
+                          builder: (ctx) => DialogBox(
+                              height: 225,
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 15),
+                                    child: Text(
+                                      'Beberam X Não beberam álcool',
+                                      textAlign: TextAlign.center,
+                                      style:
+                                          Theme.of(context).textTheme.headline1,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(25),
+                                    child: Text(
+                                      'Coloque nesse espaço o preço da bebida e o número de pessoas que beberam para separar a conta entre os dois grupos. Se você não utiilizar o espaço, apenas não use nenhumas das caixas',
+                                      style:
+                                          Theme.of(context).textTheme.bodyText1,
+                                    ),
+                                  )
+                                ],
+                              ))))
+                ], [
                   Column(
                     children: [
                       TextFormField(
