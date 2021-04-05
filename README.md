@@ -1,5 +1,7 @@
 # Racha Conta em Flutter
 
+![escudo](https://img.shields.io/badge/build-passing-brightgreen)
+
 Um racha conta feito usando a Framework Flutter e a linguagem
 de programação dart
 
