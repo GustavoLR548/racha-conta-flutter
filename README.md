@@ -7,13 +7,13 @@ de programação dart
 
 ## Objetivos
 
-- [x] Informar o valor da conta
-- [x] Porcentagem do garçom
-- [x] Tela para exibir resultados
-- [x] Levar em consideração pessoas que beberam
+- [x] Inserir conta
+- [x] Deletar conta
+- [x] Atualizar conta
+- [x] Permanência de dados usando SQLite
+- [x] Permanência de dados usando Shared Preferences
 
 ## Objetivos opcionais
 
-- [x] Adicionar mais de um Racha Conta
-- [x] Arquivar Racha Contas
-- [x] Permanência de dados usando SQLite
+- [x] Animações
+- [ ] Arquivar Contas
